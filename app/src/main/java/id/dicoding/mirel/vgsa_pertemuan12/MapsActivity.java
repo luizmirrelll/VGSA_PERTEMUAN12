@@ -63,13 +63,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
     public void btnmaps(View v){
-        if (v.getTag().equals("posisi")) {
-            LatLng posmaps = new LatLng(latitude,langtude);
-            mMap.addMarker(new MarkerOptions().position(posmaps).title("POSISI SAYA SEKARANG"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(posmaps));
-            }else if (v.getTag().equals("kordinat")){
-                Toast.makeText(this,"KORDINAT LATITUDE:"+latitude+"LANGTUDE"+langtude,Toast.LENGTH_SHORT).show();
-            }
+        if(v.getTag().equals("posisi") ){
+            LatLng pos = new LatLng(latitude,langtude);
+            mMap.addMarker(new MarkerOptions().position(pos).title("KAMU BERADA DI SINI"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
+
+        }else if(v.getTag().equals("koordinat")){
+            Toast.makeText(this, "Koordinat  Latitude: " + latitude + " Longitude: "+langtude ,
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

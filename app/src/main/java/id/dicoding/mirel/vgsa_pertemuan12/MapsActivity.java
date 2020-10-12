@@ -2,6 +2,7 @@ package id.dicoding.mirel.vgsa_pertemuan12;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.annotation.NonNull;
 
 import android.Manifest;
 import android.content.Context;
@@ -38,13 +39,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.maps);
-        assert mapFragment !=null;
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        lokasiManeger =(LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        lokasiManeger = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
-        provider = lokasiManeger.getBestProvider(criteria,false);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
-            Log.d("GPSapk","USER TIDAK DIIJINKAN AKSES LOKASI");
+        provider = lokasiManeger.getBestProvider(criteria, false);
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            Log.d("GPSApp", "User tidak mengijinkan akses lokasi");
             return;
         }
         Location location=lokasiManeger.getLastKnownLocation(provider);
@@ -81,8 +86,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        LatLng sydney = new LatLng(0, 0);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("PLIH POSISI KAMU"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 

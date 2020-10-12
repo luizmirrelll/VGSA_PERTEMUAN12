@@ -25,7 +25,7 @@
             android:layout_weight="1"
             android:tag="koordinat"
             android:id="@+id/btnkoordinat"
-            android:onClick="btnkoordinat"
+            android:onClick="btnmaps"
             android:text="koordinat user"/>
         <Button
             android:layout_width="0dp"
@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:tag="posisi"
             android:id="@+id/btnuser"
-            android:onClick="btnuser"
+            android:onClick="btnmaps"
             android:text="Posisi user"
             />
     </LinearLayout>

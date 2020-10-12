@@ -1,10 +1,18 @@
 package id.dicoding.mirel.vgsa_pertemuan12;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,7 +39,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         assert mapFragment !=null;
         mapFragment.getMapAsync(this);
-        lokasiManeger =(LocationManager)get
+        lokasiManeger =(LocationManager)getSystemService(Context,LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        provider = lokasiManeger.getBestProvider(criteria,false);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            Log.d("GPSapk","USER TIDAK DIIJINKAN AKSES LOKASI");
+            return;
+        }
+        Location location=lokasiManeger.getLastKnownLocation(provider);
+        if (location !=null){
+            System.out.println("provider"+provider+"Ditentukan");
+            latitude =location.getLatitude();
+            langtude =location.getLongitude();
+            onLocationChanged(location);
+        }else{
+            Log.d("Erorr","lokasi belum tersedia");
+        }
+    }
+    public void btnmaps(View v){
+        if (v.getTag().equals("posisi")) {
+            LatLng posmaps = new LatLng(latitude,langtude);
+            mMap.addMarker(new MarkerOptions().position(posmaps).title("POSISI SAYA SEKARANG"));
+            mMap.moveCamera((CameraUpdateFactory.newLatLng(posmaps));
+            else if (v.getTag().equals("kordinat"));
+        }
     }
 
     /**

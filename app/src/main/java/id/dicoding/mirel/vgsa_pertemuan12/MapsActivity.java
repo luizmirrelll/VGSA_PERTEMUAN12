@@ -13,6 +13,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -61,7 +62,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng posmaps = new LatLng(latitude,langtude);
             mMap.addMarker(new MarkerOptions().position(posmaps).title("POSISI SAYA SEKARANG"));
             mMap.moveCamera((CameraUpdateFactory.newLatLng(posmaps));
-            else if (v.getTag().equals("kordinat"));
+            }else if (v.getTag().equals("kordinat")){
+                Toast.makeText(this,"KORDINAT LATITUDE:"+latitude+"LANGTUDE"+langtude,Toast.LENGTH_SHORT.show());
         }
     }
 
@@ -82,5 +84,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ActivityCompat.checkSelfPermission((this,Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            return;
+        }
+        lokasiManeger.requestLocationUpdates(provider,400,1,this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        lokasiManeger.removeUpdates(this);
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Toast.makeText(this,"ENABLE NEW PROVIDER"+provider,Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Toast.makeText(this,"DISABLE NEW PROVIDER"+provider,Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        langtude=location.getLongitude();
+        latitude=location.getLatitude();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
     }
 }
